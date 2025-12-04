@@ -1,5 +1,5 @@
 import env from 'dotenv';
-import { sql } from './db.js';
+import { sql } from './config/db.js';
 import cron from 'node-cron';
 
 env.config();
