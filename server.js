@@ -15,3 +15,7 @@ app.use("/api", router);
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+app.use("/api/respondTest", (req,res)=>{
+  return res.status(201).json({message: "i live"})
+})
