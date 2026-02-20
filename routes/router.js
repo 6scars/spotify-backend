@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import controller from '../controllers/controller.js';
+import authMiddleWare from '../middleware/auth.controller.js'
 import path from 'path';
 
 const router = express.Router();
@@ -24,7 +25,7 @@ router.post('/playlists', controller.playlists)
 router.post('/checkToken', controller.checkToken)
 router.get('/fetchSongs', controller.fetchSongs)
 router.post('/addView', controller.addView)
-router.get('/getAuthorsAlbums', controller.getDataFromToken, controller.getAuthorsAlbums)
+router.get('/getAuthorsAlbums', authMiddleWare.verifyToken, controller.getAuthorsAlbums)
 router.post(
   '/saveSongInBase',
   upload.fields([
@@ -37,6 +38,6 @@ router.post(
 router.post('/createPlaylist',controller.createPlaylist)
 router.get('/getPlaylistData',controller.getPlaylistData)
 router.get('/getSong',controller.getSong);
-router.post('/addSongToPlaylist',controller.verifyToken, controller.addSongToPlaylist)
-router.post('/handleRemoveSong',controller.verifyToken, controller.handleRemoveSong)
+router.post('/addSongToPlaylist',authMiddleWare.verifyToken, controller.addSongToPlaylist)
+router.post('/handleRemoveSong',authMiddleWare.verifyToken, controller.handleRemoveSong)
 export default router;

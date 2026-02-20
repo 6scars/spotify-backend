@@ -19,3 +19,9 @@ app.listen(PORT, () => {
 app.use("/api/respondTest", (req,res)=>{
   return res.status(201).json({message: "i live"})
 })
+
+
+//It is used for checking state of backend
+app.use("/api/health"),(req,res)=>{
+  return res.status(200).send("ok")
+}
