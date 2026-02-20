@@ -22,6 +22,6 @@ app.use("/api/respondTest", (req,res)=>{
 
 
 //It is used for checking state of backend
-app.use("/api/health"),(req,res)=>{
+app.use("/api/health",(req,res)=>{
   return res.status(200).send("ok")
-}
+})
