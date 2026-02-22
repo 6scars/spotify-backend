@@ -3,6 +3,7 @@ import cors from 'cors';
 import router from './routes/router.js';
 import env from 'dotenv';
 import morgan from 'morgan'
+import {errorHandler} from './middleware/errorHandler.js'
 env.config();
 
 
@@ -28,3 +29,6 @@ app.use("/api/health",(req,res)=>{
   console.log(`health check`);
   return res.status(200).send("ok")
 })
+
+
+app.use(errorHandler);

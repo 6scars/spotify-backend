@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken"
+import AppError from "../middleware/errorHandler.js";
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export default async function createToken(userId, userEmail){
@@ -11,7 +12,7 @@ export default async function createToken(userId, userEmail){
                 { expiresIn: '1h' }
             )
     }catch(err){
-        throw ("createToken", err)
+       throw new AppError( err.message || "create token error", err.status || 500);
     }
 
 }

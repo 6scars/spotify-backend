@@ -2,6 +2,7 @@ import env from 'dotenv';
 import { sql } from '../config/db.js';
 import cron from 'node-cron';
 
+
 env.config();
 
 async function insertTop10OfPreviousMonth() {
