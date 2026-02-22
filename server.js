@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import router from './routes/router.js';
 import env from 'dotenv';
+import morgan from 'morgan'
 env.config();
 
 
@@ -9,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3005;
 app.use(express.json());
 app.use(cors());
+app.use(morgan("tiny"));
 app.use("/api", router);
 
 
