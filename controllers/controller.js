@@ -5,6 +5,7 @@ import fs from 'fs'
 import path from 'path'
 import { sql } from '../config/db.js'
 import { createClient } from '@supabase/supabase-js'
+import signIn from '../middleware/signIn.controller.js'
 import '../utils/utils.js';
 env.config()
 
@@ -16,37 +17,6 @@ const supabase = createClient(
     process.env.SUPABASE_KEY
 )
 
-async function signIn(req, res, next) {
-    const { email, password } = req.body;
-    try {
-        const data = await sql`
-            SELECT id, email, password
-            FROM authors
-            WHERE authors.email = ${email}
-        `;
-        const userPassword = data[0].password;
-        const userId = data[0].id
-        const userEmail = data[0].email
-
-        const isMatch = await bcrypt.compare(password, userPassword);
-        if (isMatch) {
-            const token = await jwt.sign({
-                id: userId,
-                email: userEmail
-            },
-                JWT_SECRET,
-                { expiresIn: '1h' }
-            )
-
-            return res.status(201).json({ message: 'logedIn', user_id: userId, token })
-        } else {
-            throw 'wrong password'
-        }
-
-    } catch (err) {
-        return res.status(401).json({ message: 'wrongPassword' })
-    }
-}
 
 async function signUp(req, res, next) {
     const saltRounds = 10;
@@ -269,7 +239,7 @@ export async function saveSongInBase(req, res, next) {
         // Insert metadata into DB
         jwt.verify(req.body.token, JWT_SECRET)
 
-        const decodedToken = jwt.decode(req.body.token); // use verify if you need to validate signature
+        const decodedToken = jwt.decode(req.body.token); 
         const { song_name, credit, album_id } = addSongForm;
         const albumIdValue = album_id && album_id !== '' ? album_id : null;
 
