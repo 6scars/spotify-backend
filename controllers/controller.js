@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken'
-import env from 'dotenv'
 import bcrypt from 'bcrypt'
 import fs from 'fs'
 import path from 'path'
@@ -7,7 +6,6 @@ import { sql } from '../config/db.js'
 import { createClient } from '@supabase/supabase-js'
 import signIn from '../middleware/signIn.middleware.js'
 import '../utils/utils.js';
-env.config()
 
 
 let controller;
