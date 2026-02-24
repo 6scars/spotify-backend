@@ -11,9 +11,11 @@ export async function signIn(req, res, next) {
         };
 
         const data = await query(email);
+        if(!data || data.length === 0) throw new AppError("Invalid email or password", 404); // if 
+
         const { id: userId, password: userPassword, email: userEmail} = data[0];
 
-        if(!userId | !userPassword || !userEmail) {
+        if(!userId || !userPassword || !userEmail) {
             return next(new AppError("Invalid user data from database", 500))
         }
 
@@ -43,8 +45,6 @@ async function query(email){
                 FROM authors
                 WHERE authors.email = ${email}
             `;
-
-        if(!data || data.length === 0) throw new AppError("User not found", 404);
 
         return data;
     }catch(err){

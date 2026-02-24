@@ -1,4 +1,3 @@
-//process.env.NODE_ENV === "development" - for future
 
 
 export default class AppError extends Error{
@@ -11,9 +10,8 @@ export default class AppError extends Error{
 
 
 export function errorHandler(err, req, res, next) {
-  console.error("ERROR:", err);
-
-  if(err.status >= 400 && err.status < 500){
+  console.log(process.env.NODE_ENV)
+  if(err.status < 500){
     res.status(err.status).json({
       message: err.message
     });
