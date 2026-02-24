@@ -5,7 +5,6 @@ import router from './routes/router.js';
 import morgan from 'morgan'
 import {errorHandler} from './middleware/errorHandler.js'
 
-
 const app = express();
 const PORT = process.env.PORT || 3005;
 app.use(express.json());
