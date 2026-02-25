@@ -1,11 +1,9 @@
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
-import fs from 'fs'
-import path from 'path'
-import { sql } from '../../config/db.js'
-import { createClient } from '@supabase/supabase-js'
-import signIn from '../signInModule/signIn.controller.js'
-import '../utils/utils.js';
+import jwt                      from 'jsonwebtoken'
+import fs                       from 'fs'
+import path                     from 'path'
+import { sql }                  from '../../config/db.js'
+import { createClient }         from '@supabase/supabase-js'
+import                               '../utils/utils.js';
 
 
 let controller;
@@ -16,58 +14,8 @@ const supabase = createClient(
 )
 
 
-async function signUp(req, res, next) {
-    const saltRounds = 10;
-    const { email, password } = req.body
-    try {
-        const hashed = await bcrypt.hash(password, saltRounds)
-
-        const newUser = await sql`
-            INSERT INTO authors (email,password)
-            VALUES (${email}, ${hashed})
-            ON CONFLICT (email) DO NOTHING
-            RETURNING *
-        `;
-        return res.status(201).json({ message: 'User Created' })
-    } catch (err) {
-        console.error('SINGUP error:', err)
-    }
-    return res.status(202).json({ message: "accomplished" })
-}
-
-async function playlists(req, res, next) {
-    try {
-        const { id } = req.body
-        if (typeof id != 'number') {
-            throw 'playlists function, not valid input'
-        }
-
-        const data = await sql`
-        SELECT
-            authors.id AS author_id,
-            authors.author AS author_name,
-            authors.email,
-            playlists.id AS playlist_id,
-            playlists.name AS playlist_name,
-            ARRAY_AGG(DISTINCT songs.id) AS song_ids,
-            ARRAY_AGG(DISTINCT songs."song_Image") AS song_images
-        FROM authors
-        INNER JOIN authors_playlists ON authors.id = authors_playlists.author_id
-        INNER JOIN playlists ON playlists.id = authors_playlists.playlist_id
-        FULL  OUTER JOIN playlists_songs ON playlists_songs.playlist_id = playlists.id
-        FULL OUTER JOIN authors_songs ON playlists_songs.song_id = authors_songs.song_id
-        LEFT JOIN songs ON authors_songs.song_id = songs.id
-        WHERE authors.id = ${id}
-        GROUP BY authors.id, authors.author, authors.email, playlists.id, playlists.name;
 
 
-        `;
-        return res.status(202).json({ message: "accomplished", data: data })
-    } catch (err) {
-        console.error("❌ Error fetching authors:", err);
-    }
-
-}
 
 async function fetchSongs(req, res, next) {
     try {
@@ -432,12 +380,8 @@ export async function handleRemoveSong(req, res, next) {
 }
 
 export default controller = {
-
     handleRemoveSong,
     addSongToPlaylist,
-    signIn,
-    signUp,
-    playlists,
     checkToken,
     fetchSongs,
     addView,

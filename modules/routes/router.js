@@ -1,10 +1,11 @@
-import express from 'express';
-import multer from 'multer';
-import controller from '../controllers/controller.js';
-import verifyToken from '../signInModule/signIn.verifyToken.middleware.js'
-import signInRouter from "../signInModule/signIn.router.js"
-import signUpRouter from "../signUpModule/signUp.router.js"
-import path from 'path';
+import express              from 'express';
+import multer               from 'multer';
+import controller           from '../controllers/controller.js';
+import verifyToken          from '../middleware/verifyToken.middleware.js'
+import signInRouter         from "../signInModule/signIn.router.js"
+import signUpRouter         from "../signUpModule/signUp.router.js"
+import playlistsRouter      from "../playlistsModule/playlists.router.js"
+import path                 from 'path';
 
 const router = express.Router();
 const storage = multer.diskStorage({
@@ -22,7 +23,7 @@ const upload = multer({ storage }); // note: dest, not desc
 
 router.use(signInRouter);
 router.use(signUpRouter);
-router.post('/playlists', controller.playlists)
+router.use(playlistsRouter);
 router.post('/checkToken', controller.checkToken)
 router.get('/fetchSongs', controller.fetchSongs)
 router.post('/addView', controller.addView)

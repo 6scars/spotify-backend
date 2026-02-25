@@ -1,0 +1,26 @@
+import getOwnUserPlaylists from './playlists-helper-functions/playlists.helper.getOwnUserPlaylists.js'
+
+
+export default async function playlists(req, res, next) {
+    try {
+        const { id } = req.body
+        checkIsIdTypeNumber(id)
+
+        const data = await getOwnUserPlaylists(id)
+
+        return res.status(202).json({ message: "accomplished", data: data })
+    } catch (err) {
+        console.error("❌ Error fetching authors:", err);
+    }
+
+}
+
+
+////////////////////////////////////////////               ///////////////////////////////////////////////////
+/////////////////////////////////////////// IF STATEMENTS ///////////////////////////////////////////////////
+//////////////////////////////////////////               ///////////////////////////////////////////////////
+function checkIsIdTypeNumber(id){
+    if (typeof id != 'number') {
+        throw 'playlists function, not valid input'
+    }
+}
