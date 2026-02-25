@@ -1,5 +1,3 @@
-
-
 export default class AppError extends Error{
     constructor(message, status){
         super(message);
@@ -11,9 +9,10 @@ export default class AppError extends Error{
 
 export function errorHandler(err, req, res, next) {
   if(process.env.DEVELOPMENT === "YES"){
-      console.log(process.env.DEVELOPMENT)
+      console.log("Is in development status: ", process.env.DEVELOPMENT)
       errorDevelopment(err, res)
     }else{
+      console.log("Is in development status: NO" )
       errorProduction (err, res)
     } 
 }
@@ -25,6 +24,7 @@ function errorDevelopment(err, res){
       res.status(err.status).json({
       message: err.message
     });
+    console.error("message: ", err.message, "\nStatus: ", err.status, "\nisOperational: ", err.isOperational)
 }
 
 function errorProduction (err, res){

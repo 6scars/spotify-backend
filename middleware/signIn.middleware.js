@@ -1,12 +1,13 @@
-import { sql }              from '../config/db.js'
+
 import passwordCompare      from '../helper/passwordCompare.js';
 import createToken          from '../helper/createToken.js';
-import AppError             from './errorHandler.js';
+import AppError             from '../errorHandler/errorHandler.js';
+import getUserByEmail       from './helper/getUserByEmail.js'
 
 export async function signIn(req, res, next) {
     const { email, password } = req.body;
     try {
-        checkIsEmailAndPassword(email, password)
+        checkIsEmailAndPasswordExist(email, password)
 
         const data =  await getUserByEmail(email)
         checkIsReturnedUserData(data)
@@ -15,11 +16,10 @@ export async function signIn(req, res, next) {
         checkIsNoEmpty(userId, userPassword, userEmail)
 
         const isMatch = await passwordCompare(password, userPassword);
-        checkIsMatchExist(isMatch)
+        checkMatchExist(isMatch)
 
         const token = await createToken(userId, userEmail);
-        checkIsTokenExist(token)
-
+        checkTokenExist(token)
 
         return res.status(200).json({ message: 'logedIn', user_id: userId, token })
     } catch (err) {
@@ -28,7 +28,7 @@ export async function signIn(req, res, next) {
 }
 
 
-function checkIsEmailAndPassword(email, password){
+function checkIsEmailAndPasswordExist(email, password){
     if(!email || !password) {
         return new AppError("No email or password", 400)
     };
@@ -46,35 +46,21 @@ function checkIsNoEmpty(userId, userPassword, userEmail){
     }
 }
 
-function checkIsMatchExist(isMatch){
+function checkMatchExist(isMatch){
     if(!isMatch){
         throw new AppError("Invalid email or password", 400)
     }
 }
 
-function checkIsTokenExist(token){
+function checkTokenExist(token){
     if(!token){
         throw new AppError("There is not createdtoken", 500)
     }
 }
 
 
+// get the function belowe and put to the help function
 
-
-async function getUserByEmail(email){
-    try{
-        const data = await sql`
-                SELECT id, email, password
-                FROM authors
-                WHERE authors.email = ${email}
-            `;
-
-        return data;
-    }catch(err){
-        throw new AppError(err.message || "singIn querry error", err.status || 500);
-    }
-
-}
 
 
 

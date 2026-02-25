@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import AppError from "../middleware/errorHandler.js";
+import AppError from "../errorHandler/errorHandler.js";
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export default async function createToken(userId, userEmail){

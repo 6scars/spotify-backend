@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-import AppError from "../middleware/errorHandler.js";
+import AppError from "../errorHandler/errorHandler.js";
 
 export default async function passwordCompare(password, userPassword){
     try{

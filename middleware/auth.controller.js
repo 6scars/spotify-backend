@@ -2,8 +2,6 @@ import jwt from 'jsonwebtoken'
 
 const JWT_SECRET = process.env.JWT_SECRET
 
-
-/* req.verifyToken <- jwt.decode(token)*/
 /* returns    PAYLOAD   of   JWT TOKEN   if is  VALID */
 export function verifyToken(req, res, next) {
     try {
@@ -20,25 +18,6 @@ export function verifyToken(req, res, next) {
     }
 }
 
-
-// export async function createToken(req,res,next){
-//     try{
-//         const token = await jwt.sign({
-//                 id: userId,
-//                 email: userEmail
-//             },
-//                 JWT_SECRET,
-//                 { expiresIn: '1h' }
-//             )
-//             console.log("create Token: ", token);
-//         return;
-//     }catch(err){
-//         console.warn('createToken error')
-//         return res.status(500).json({message:"server error",err});
-//     }
-
-
-// }
 export default {
     verifyToken
 };
