@@ -1,35 +1,24 @@
-import { sql } from '../config/db.js'
-import passwordCompare from '../helper/passwordCompare.js';
-import createToken from '../helper/createToken.js';
-import AppError from './errorHandler.js';
+import { sql }              from '../config/db.js'
+import passwordCompare      from '../helper/passwordCompare.js';
+import createToken          from '../helper/createToken.js';
+import AppError             from './errorHandler.js';
 
 export async function signIn(req, res, next) {
     const { email, password } = req.body;
     try {
-        if(!email || !password) {
-            return next(new AppError("No email or password", 400))
-        };
+        checkIsEmailAndPassword(email, password)
 
-        const data = await query(email);
-        if(!data || data.length === 0) throw new AppError("Invalid email or password", 404); // if 
+        const data =  await getUserByEmail(email)
+        checkIsReturnedUserData(data)
 
         const { id: userId, password: userPassword, email: userEmail} = data[0];
-
-        if(!userId || !userPassword || !userEmail) {
-            return next(new AppError("Invalid user data from database", 500))
-        }
+        checkIsNoEmpty(userId, userPassword, userEmail)
 
         const isMatch = await passwordCompare(password, userPassword);
-
-        if(!isMatch){
-            return next(new AppError("Wrong password", 401));
-        }
+        checkIsMatchExist(isMatch)
 
         const token = await createToken(userId, userEmail);
-
-        if(!token){
-            return next(new AppError("There is not createdtoken", 500))
-        }
+        checkIsTokenExist(token)
 
 
         return res.status(200).json({ message: 'logedIn', user_id: userId, token })
@@ -38,7 +27,41 @@ export async function signIn(req, res, next) {
     }
 }
 
-async function query(email){
+
+function checkIsEmailAndPassword(email, password){
+    if(!email || !password) {
+        return new AppError("No email or password", 400)
+    };
+}
+
+function checkIsReturnedUserData(data){
+    if(!data || data.length === 0) {
+        throw new AppError("Invalid email or password", 400); 
+    }
+}
+
+function checkIsNoEmpty(userId, userPassword, userEmail){
+    if(!userId || !userPassword || !userEmail) {
+        throw new AppError("Invalid user data from database", 500)
+    }
+}
+
+function checkIsMatchExist(isMatch){
+    if(!isMatch){
+        throw new AppError("Invalid email or password", 400)
+    }
+}
+
+function checkIsTokenExist(token){
+    if(!token){
+        throw new AppError("There is not createdtoken", 500)
+    }
+}
+
+
+
+
+async function getUserByEmail(email){
     try{
         const data = await sql`
                 SELECT id, email, password
