@@ -4,7 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import { sql } from '../../config/db.js'
 import { createClient } from '@supabase/supabase-js'
-import signIn from '../middleware/signIn.controller.js'
+import signIn from '../signInModule/signIn.controller.js'
 import '../utils/utils.js';
 
 

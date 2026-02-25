@@ -1,5 +1,5 @@
 import AppError from "../errorHandler/errorHandler.js";
-import jwtVerifyReturnPayload from "../helperFunctions/jwtVerifyReturnPayload.js";
+import jwtVerifyReturnPayload from "../helper-functions/jwtVerifyReturnPayload.js";
 
 /* returns    PAYLOAD   of   JWT TOKEN   if is  VALID */
 export default function verifyToken(req, res, next) {
@@ -18,10 +18,10 @@ export default function verifyToken(req, res, next) {
     }
 }
 
-function checkIsAuthHeaderExist(authHeader){
-    if (!authHeader) 
-        throw next(new AppError("Your session ended", 400))
-}
+
+////////////////////////////////////////////                        //////////////////////////////////////////////
+/////////////////////////////////////////// HELPERS FOR MIDDLEWARE //////////////////////////////////////////////
+//////////////////////////////////////////                        //////////////////////////////////////////////
 
 function extractToken(authHeader){
     try{
@@ -45,3 +45,12 @@ function returnAuthHeader(req){
     }
     
 }
+
+////////////////////////////////////////////               ///////////////////////////////////////////////////
+/////////////////////////////////////////// IF STATEMENTS ///////////////////////////////////////////////////
+//////////////////////////////////////////               ///////////////////////////////////////////////////
+function checkIsAuthHeaderExist(authHeader){
+    if (!authHeader) 
+        throw next(new AppError("Your session ended", 400))
+}
+
