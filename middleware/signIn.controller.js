@@ -54,7 +54,7 @@ function checkMatchExist(isMatch){
 
 function checkTokenExist(token){
     if(!token){
-        throw new AppError("There is not createdtoken", 500)
+        throw new AppError("There is not created token", 500)
     }
 }
 

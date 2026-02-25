@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 const JWT_SECRET = process.env.JWT_SECRET
 
 /* returns    PAYLOAD   of   JWT TOKEN   if is  VALID */
-export function verifyToken(req, res, next) {
+export default function verifyToken(req, res, next) {
     try {
         const authHeader = req.headers.authorization;
         if (!authHeader)
@@ -18,6 +18,3 @@ export function verifyToken(req, res, next) {
     }
 }
 
-export default {
-    verifyToken
-};
