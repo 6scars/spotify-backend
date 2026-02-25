@@ -1,5 +1,5 @@
 import AppError from "../errorHandler/errorHandler.js";
-import jwtVerifyReturnPayload from "../helper/jwtVerifyReturnPayload.js";
+import jwtVerifyReturnPayload from "../helperFunctions/jwtVerifyReturnPayload.js";
 
 /* returns    PAYLOAD   of   JWT TOKEN   if is  VALID */
 export default function verifyToken(req, res, next) {

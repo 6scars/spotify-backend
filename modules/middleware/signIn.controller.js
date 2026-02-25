@@ -1,8 +1,8 @@
 
-import passwordCompare      from '../helper/passwordCompare.js';
-import createToken          from '../helper/createToken.js';
+import passwordCompare      from '../helperFunctions/passwordCompare.js';
+import createToken          from '../helperFunctions/createToken.js';
 import AppError             from '../errorHandler/errorHandler.js';
-import getUserByEmail       from './helper/getUserByEmail.js'
+import getUserByEmail       from './helperMiddleware/getUserByEmail.js'
 
 export async function signIn(req, res, next) {
     const { email, password } = req.body;
