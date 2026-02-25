@@ -1,9 +1,9 @@
 import './config/env.js'
 import express from 'express';
 import cors from 'cors';
-import router from './routes/router.js';
+import router from './modules/routes/router.js';
 import morgan from 'morgan'
-import {errorHandler} from './errorHandler/errorHandler.js'
+import {errorHandler} from './modules/errorHandler/errorHandler.js'
 
 const app = express();
 const PORT = process.env.PORT || 3005;

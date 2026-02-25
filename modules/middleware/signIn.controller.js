@@ -59,9 +59,4 @@ function checkTokenExist(token){
 }
 
 
-// get the function belowe and put to the help function
-
-
-
-
 export default signIn;
