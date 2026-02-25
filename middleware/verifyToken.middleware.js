@@ -1,20 +1,47 @@
-import jwt from 'jsonwebtoken'
-
-const JWT_SECRET = process.env.JWT_SECRET
+import AppError from "../errorHandler/errorHandler.js";
+import jwtVerifyReturnPayload from "../helper/jwtVerifyReturnPayload.js";
 
 /* returns    PAYLOAD   of   JWT TOKEN   if is  VALID */
 export default function verifyToken(req, res, next) {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader)
-            return res.status(401).json({ error: 'Missing token' });
-        const token = authHeader.split(' ')[1];
-        const payloadJWT = jwt.verify(token, JWT_SECRET)
-        req.payloadJWT = payloadJWT;
+        const authHeader    = returnAuthHeader(req);
+
+        checkIsAuthHeaderExist();
+
+        const token         = extractToken(authHeader)
+        const payloadJWT    = jwtVerifyReturnPayload(token)
+
+        req.payloadJWT      = payloadJWT;
         next()
     } catch (err) {
-        console.err(err)
-        return res.status(500).json({ message: 'SERVER PROBLEM' })
+        next(err)
     }
 }
 
+function checkIsAuthHeaderExist(authHeader){
+    if (!authHeader) 
+        throw next(new AppError("Your session ended", 400))
+}
+
+function extractToken(authHeader){
+    try{
+        if(authHeader){
+            return authHeader.split(' ')[1];
+        }
+    }catch(err)
+    {
+        throw new AppError("There is no authHeader", 500)
+    }
+}
+
+function returnAuthHeader(req){
+    try{
+        if(req.headers.authorization){
+            return req.headers.authorization;
+        }
+    }catch(err)
+    {
+        throw new AppError("There is authorization header object", 500)
+    }
+    
+}
