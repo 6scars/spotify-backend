@@ -17,25 +17,7 @@ const supabase = createClient(
 
 
 
-async function getAuthorsAlbums(req, res, next) {
-    const { id, email } = req.payloadJWT;
-    try {
-        const response = await sql`
-        SELECT album_name, album.id
-        FROM album
-        INNER JOIN authors
-        ON album.author_id = authors.id
-        WHERE authors.id = ${id}
-    `
-        return res.status(200).json({ message: "good", data: response });
 
-    } catch (err) {
-        console.error(err)
-        return res.status(200).json({ message: "getAuthorsAlbums ERROR" })
-    }
-
-
-}
 
 export async function saveSongInBase(req, res, next) {
     const fsp = fs.promises; // use promises on the existing fs import
@@ -295,7 +277,6 @@ export async function handleRemoveSong(req, res, next) {
 export default controller = {
     handleRemoveSong,
     addSongToPlaylist,
-    getAuthorsAlbums,
     saveSongInBase,
     createPlaylist,
     getPlaylistData,

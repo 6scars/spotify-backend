@@ -6,7 +6,7 @@ export default function verifyToken(req, res, next) {
     try {
         const authHeader    = returnAuthHeader(req);
 
-        checkIsAuthHeaderExist();
+        checkIsAuthHeaderExist(authHeader);
 
         const token         = extractToken(authHeader)
         const payloadJWT    = jwtVerifyReturnPayload(token)

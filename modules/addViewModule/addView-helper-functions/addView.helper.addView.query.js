@@ -1,5 +1,5 @@
 import {sql} from '../../../config/db.js'
-import AppError from '../../errorHandler/errorHandler.js'
+import AppError from '../../errorHandler/errorHandler.js';
 export default async function addViewQuery(song_id, user_id){
     try{
         await sql.begin(async sql => {

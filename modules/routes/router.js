@@ -8,6 +8,7 @@ import playlistsRouter            from "../playlistsModule/playlists.router.js"
 import validateUserSessionRouter  from '../validateUserSessionModule/validateUserSession.router.js'
 import getUserRouter              from '../getSongsModule/getSongs.router.js'
 import addViewRouter              from '../addViewModule/addVIew.router.js';
+import getAuthorsAlbumsRouter     from '../getAuthorsAlbums/getAuthorsAlbums.router.js'
 import path                       from 'path';
 
 const router = express.Router();
@@ -29,8 +30,8 @@ router.use(signUpRouter);
 router.use(playlistsRouter);
 router.use(validateUserSessionRouter);
 router.use(getUserRouter);
-router.use(addViewRouter);
-router.get('/getAuthorsAlbums', verifyToken, controller.getAuthorsAlbums)
+router.use(addViewRouter)
+router.use(getAuthorsAlbumsRouter)
 router.post(
   '/saveSongInBase',
   upload.fields([

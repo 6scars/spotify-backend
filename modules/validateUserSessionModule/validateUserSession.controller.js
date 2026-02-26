@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+const JWT_SECRET = process.env.JWT_SECRET
 
 
 export default async function validateUserSession(req, res, next) {
@@ -7,9 +8,10 @@ export default async function validateUserSession(req, res, next) {
 
     const token = authHeader.split(' ')[1];
     try {
-        const verifiedToken = verifyToken(token);
+        const verifiedToken = jwt.verify(token, JWT_SECRET);
         const DoesTokenExist = checkDoesExist(verifiedToken)
 
+        console.log("DoesTokenExist Token:", DoesTokenExist)
         if(DoesTokenExist){
             return res.status(201).json({ message: "accomplished", token: token })
         }
@@ -31,9 +33,9 @@ function extractHeadToken(req){
     return req.headers.authorization;
 }
 
-function verifyToken(token){
-    return jwt.verify(token, JWT_SECRET);
-}
+// function verifyToken(token){
+//     return jwt.verify(token, JWT_SECRET);
+// }
 
 
 ////////////////////////////////////////////               ///////////////////////////////////////////////////
@@ -42,8 +44,9 @@ function verifyToken(token){
 
 function checkDoesExist(token){
     if(token){
-        return true;
+        return true
+    }else{
+        return false;
     }
-    return false
 
 }
