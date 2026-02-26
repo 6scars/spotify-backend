@@ -28,8 +28,7 @@ function extractToken(authHeader){
         if(authHeader){
             return authHeader.split(' ')[1];
         }
-    }catch(err)
-    {
+    }catch(err){
         throw new AppError("There is no authHeader", 500)
     }
 }

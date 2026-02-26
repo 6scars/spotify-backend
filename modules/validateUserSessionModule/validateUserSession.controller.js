@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import AppError from '../errorHandler/errorHandler.js'
 const JWT_SECRET = process.env.JWT_SECRET
 
 
@@ -8,18 +9,15 @@ export default async function validateUserSession(req, res, next) {
 
     const token = authHeader.split(' ')[1];
     try {
-        const verifiedToken = jwt.verify(token, JWT_SECRET);
+        const verifiedToken = verifyToken(token);
         const DoesTokenExist = checkDoesExist(verifiedToken)
 
-        console.log("DoesTokenExist Token:", DoesTokenExist)
         if(DoesTokenExist){
             return res.status(201).json({ message: "accomplished", token: token })
         }
-
-        return res.status(401).json({ message: 'NOT VALID TOKEN' })
+        throw new AppError("validateUserSession - Token doesnt exist", 500);
     } catch (err) {
-        console.error('NOT VALID TOKEN')
-        return res.status(401).json({ message: 'NOT VALID TOKEN' })
+        next(err)
     }
 }
 
@@ -33,9 +31,9 @@ function extractHeadToken(req){
     return req.headers.authorization;
 }
 
-// function verifyToken(token){
-//     return jwt.verify(token, JWT_SECRET);
-// }
+function verifyToken(token){
+    return jwt.verify(token, JWT_SECRET);
+}
 
 
 ////////////////////////////////////////////               ///////////////////////////////////////////////////

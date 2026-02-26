@@ -1,5 +1,5 @@
 import getOwnUserPlaylists from './playlists-helper-functions/playlists.helper.getOwnUserPlaylists.js'
-
+import AppError from '../errorHandler/errorHandler.js'
 
 export default async function playlists(req, res, next) {
     try {
@@ -10,7 +10,7 @@ export default async function playlists(req, res, next) {
 
         return res.status(202).json({ message: "accomplished", data: data })
     } catch (err) {
-        console.error("❌ Error fetching authors:", err);
+        next(err)
     }
 
 }
@@ -27,6 +27,6 @@ export default async function playlists(req, res, next) {
 //////////////////////////////////////////               ///////////////////////////////////////////////////
 function checkIsIdTypeNumber(id){
     if (typeof id != 'number') {
-        throw 'playlists function, not valid input'
+        throw new AppError('playlists function, not valid input', 500)
     }
 }

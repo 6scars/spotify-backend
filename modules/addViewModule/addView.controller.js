@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken'
 import addViewQuery from './addView-helper-functions/addView.helper.addView.query.js'
+import AppError from '../errorHandler/errorHandler.js';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 
 
@@ -12,7 +14,6 @@ export default async function addView(req, res, next) {
         token = checkIsTokenNull(token)
     if (token) {
         const verifiedUserData = verifyToken(token);
-        console.log(verifiedUserData)
         user_id = verifiedUserData.id
     }
     
@@ -20,8 +21,7 @@ export default async function addView(req, res, next) {
 
         return res.sendStatus(204)
     } catch (err) {
-        console.error('FUNCTION ERORR addView', err)
-        return res.sendStatus(500);
+        next(err)
     }
 
 }
@@ -30,15 +30,28 @@ export default async function addView(req, res, next) {
 /////////////////////////////////////////// HELPERS FOR THE MIDDLEWARE //////////////////////////////////////////////
 //////////////////////////////////////////                            //////////////////////////////////////////////
 function extractSongId(req){
-    return req.body.song_id
+    if(req.body.song_id){
+        return req.body.song_id
+    }else{
+        throw new AppError('addView controller no data in req.body.song_id', 500)
+    }
 }
 
 function extractHeadToken(req){
-    return req.headers.authorization;
+    if(req.headers.authorization){
+        return req.headers.authorization;
+    }else{
+        throw new AppError('addView controller no data in req.headers.authorization', 500)
+    }
+    
 }
 
 function verifyToken(token){
-    return jwt.verify(token, JWT_SECRET);
+    if(token){
+        return jwt.verify(token, JWT_SECRET)
+    }else{
+        throw new AppError("addView controller verifyToken there is no token to verify", 500)
+    }
 }
 
 

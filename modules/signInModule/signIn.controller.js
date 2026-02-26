@@ -40,7 +40,7 @@ export async function signIn(req, res, next) {
 
 function checkIsEmailAndPasswordExist(email, password){
     if(!email || !password) {
-        return new AppError("No email or password", 400)
+        throw new AppError("No email or password", 400)
     };
 }
 
