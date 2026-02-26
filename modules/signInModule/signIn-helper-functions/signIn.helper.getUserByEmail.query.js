@@ -1,7 +1,7 @@
 import { sql }              from '../../../config/db.js'
 
 
-export default async function getUserByEmail(email){
+export default async function getUserByEmailQuery(email){
     try{
         const data = await sql`
                 SELECT id, email, password

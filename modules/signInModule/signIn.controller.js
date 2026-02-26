@@ -2,14 +2,14 @@
 import passwordCompare      from '../helper-functions/passwordCompare.js';
 import createToken          from '../helper-functions/createToken.js';
 import AppError             from '../errorHandler/errorHandler.js';
-import getUserByEmail       from './signIn-helper-functions/signIn.helper.getUserByEmail.js'
+import getUserByEmailQuery       from './signIn-helper-functions/signIn.helper.getUserByEmail.query.js'
 
 export async function signIn(req, res, next) {
     const { email, password } = req.body;
     try {
         checkIsEmailAndPasswordExist(email, password)
 
-        const data =  await getUserByEmail(email)
+        const data =  await getUserByEmailQuery(email)
         checkIsReturnedUserData(data)
 
         const { id: userId, password: userPassword, email: userEmail} = data[0];
@@ -27,6 +27,16 @@ export async function signIn(req, res, next) {
     }
 }
 
+////////////////////////////////////////////                            //////////////////////////////////////////////
+/////////////////////////////////////////// HELPERS FOR THE MIDDLEWARE //////////////////////////////////////////////
+//////////////////////////////////////////                            //////////////////////////////////////////////
+
+
+
+
+////////////////////////////////////////////               ///////////////////////////////////////////////////
+/////////////////////////////////////////// IF STATEMENTS ///////////////////////////////////////////////////
+//////////////////////////////////////////               ///////////////////////////////////////////////////
 
 function checkIsEmailAndPasswordExist(email, password){
     if(!email || !password) {

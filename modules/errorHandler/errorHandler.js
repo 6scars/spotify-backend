@@ -21,7 +21,7 @@ export function errorHandler(err, req, res, next) {
 
 
 function errorDevelopment(err, res){
-      res.status(err.status).json({
+    res.status(err.status)  .json({
       message: err.message
     });
     console.error("message: ", err.message, "\nStatus: ", err.status, "\nisOperational: ", err.isOperational)

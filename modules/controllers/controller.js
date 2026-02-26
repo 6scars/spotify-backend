@@ -17,7 +17,7 @@ const supabase = createClient(
 
 
 
-async function fetchSongs(req, res, next) {
+async function getSongs(req, res, next) {
     try {
         const data = await sql`
         SELECT
@@ -47,23 +47,6 @@ async function fetchSongs(req, res, next) {
     }
 }
 
-async function checkToken(req, res, next) {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) return res.status(401).json({ error: 'Missing token' });
-
-    const token = authHeader.split(' ')[1];
-    try {
-        const verifiedToken = jwt.verify(token, JWT_SECRET)
-        if (verifiedToken) {
-            return res.status(201).json({ message: "accomplished", token: token })
-        } else {
-            return res.status(401).json({ message: 'NOT VALID TOKEN' })
-        }
-    } catch (err) {
-        console.error('NOT VALID TOKEN')
-        return res.status(401).json({ message: 'NOT VALID TOKEN' })
-    }
-}
 
 
 async function addView(req, res, next) {
@@ -382,8 +365,7 @@ export async function handleRemoveSong(req, res, next) {
 export default controller = {
     handleRemoveSong,
     addSongToPlaylist,
-    checkToken,
-    fetchSongs,
+    getSongs,
     addView,
     getAuthorsAlbums,
     saveSongInBase,
