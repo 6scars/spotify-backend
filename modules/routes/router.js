@@ -7,6 +7,7 @@ import signUpRouter               from "../signUpModule/signUp.router.js"
 import playlistsRouter            from "../playlistsModule/playlists.router.js"
 import validateUserSessionRouter  from '../validateUserSessionModule/validateUserSession.router.js'
 import getUserRouter              from '../getSongsModule/getSongs.router.js'
+import addViewRouter              from '../addViewModule/addVIew.router.js';
 import path                       from 'path';
 
 const router = express.Router();
@@ -28,7 +29,7 @@ router.use(signUpRouter);
 router.use(playlistsRouter);
 router.use(validateUserSessionRouter);
 router.use(getUserRouter);
-router.post('/addView', controller.addView)
+router.use(addViewRouter);
 router.get('/getAuthorsAlbums', verifyToken, controller.getAuthorsAlbums)
 router.post(
   '/saveSongInBase',

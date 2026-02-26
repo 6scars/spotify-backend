@@ -17,76 +17,6 @@ const supabase = createClient(
 
 
 
-async function getSongs(req, res, next) {
-    try {
-        const data = await sql`
-        SELECT
-            song_id,
-            "song_Name" AS song_name,
-            songs."song_Image" AS song_image,
-            songs.created_at,
-            songs.views,
-            authors.follows,
-            file,
-            credit,
-            album_id,
-            author_image AS author_image,
-            author,
-            author_id,
-            biograph
-        FROM songs
-        INNER JOIN authors_songs ON authors_songs.song_id = songs.id
-        INNER JOIN authors ON authors.id = authors_songs.author_id
-
-    `
-        return res.status(201).json({ message: "accompllished", data })
-
-    } catch (err) {
-        console.error('FETCH SONG FAILURE', err);
-        return res.status(401).json({ message: 'FETCH SONG FAILURE', error: err })
-    }
-}
-
-
-
-async function addView(req, res, next) {
-    const song_id = req.body.song_id;
-    const auth = req.headers.authorization;
-    let user_id = null;
-    let token = auth.split(' ')[1];
-
-    if (token === 'null' || !token) {
-        token = null;
-    }
-    if (token) {
-        const verifiedUserData = jwt.verify(token, JWT_SECRET);
-        console.log(verifiedUserData)
-        user_id = verifiedUserData.id
-    }
-    try {
-        await sql.begin(async sql => {
-            await sql`
-            UPDATE songs
-            SET views = views + 1
-            WHERE id = ${song_id}
-        `
-            await sql`
-            INSERT INTO views (user_id, song_id)
-            VALUES (${user_id}, ${song_id})
-        `
-
-        })
-
-        return res.sendStatus(204)
-    } catch (err) {
-        console.error('FUNCTION ERORR addView', err)
-        return res.sendStatus(500);
-    }
-
-}
-
-
-
 async function getAuthorsAlbums(req, res, next) {
     const { id, email } = req.payloadJWT;
     try {
@@ -365,8 +295,6 @@ export async function handleRemoveSong(req, res, next) {
 export default controller = {
     handleRemoveSong,
     addSongToPlaylist,
-    getSongs,
-    addView,
     getAuthorsAlbums,
     saveSongInBase,
     createPlaylist,
