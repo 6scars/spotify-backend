@@ -6,7 +6,7 @@ import signInRouter               from "../signInModule/signIn.router.js"
 import signUpRouter               from "../signUpModule/signUp.router.js"
 import playlistsRouter            from "../playlistsModule/playlists.router.js"
 import validateUserSessionRouter  from '../validateUserSessionModule/validateUserSession.router.js'
-import getUserRouter              from '../getSongs/getSongs.router.js'
+import getUserRouter              from '../getSongsModule/getSongs.router.js'
 import path                       from 'path';
 
 const router = express.Router();
