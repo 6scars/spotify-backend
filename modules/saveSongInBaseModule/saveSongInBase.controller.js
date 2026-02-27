@@ -48,7 +48,7 @@ export default async function saveSongInBase(req, res, next) {
         // Upload MP3
         
         await uploadFile('spotify', `songs/${mp3Name}`, mp3Buffer, mp3File.mimetype);
-        await uploadFile('spotify', `songs/${imgName}`, imgBuffer, imgFile.mimetype);
+        await uploadFile('spotify', `images/songPictures/${imgName}`, imgBuffer, imgFile.mimetype);
 
 
 
@@ -92,14 +92,15 @@ const safeUnlink = async (p) => {
 
 async function uploadFile(bucketName, pathWithFileName, fileBuffer, fileMimetype){
     try{
-        const { data: mp3Data, error: fileError } = await supabase.storage
+        console.log("uploadFile start")
+        const { data: fileData, error: fileError } = await supabase.storage
         .from(bucketName) // for example: 'spotify'
         .upload(pathWithFileName, fileBuffer, {   //for example: `songs/${filename}`...
             contentType: fileMimetype,
             upsert: true
         });
+        console.log("uploadFile end before throw & fileData:", fileData)
         if(fileError) throw new AppError(fileError.message , 500)
-        return
     }catch(err){
         throw new AppError(err.message || 'saveSongInBase.controller error uploadFile - uploading file to supabase', 500)
     }
