@@ -1,5 +1,4 @@
 import express                    from 'express';
-import multer                     from 'multer';
 import controller                 from '../controllers/controller.js';
 import verifyToken                from '../middleware/verifyToken.middleware.js'
 import signInRouter               from "../signInModule/signIn.router.js"
@@ -9,20 +8,11 @@ import validateUserSessionRouter  from '../validateUserSessionModule/validateUse
 import getUserRouter              from '../getSongsModule/getSongs.router.js'
 import addViewRouter              from '../addViewModule/addVIew.router.js';
 import getAuthorsAlbumsRouter     from '../getAuthorsAlbums/getAuthorsAlbums.router.js'
+import saveSongInBaseRouter       from '../saveSongInBaseModule/saveSongInBase.router.js'
 import path                       from 'path';
 
 const router = express.Router();
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/')
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname)
-    const baseName = path.basename(file.originalname, ext);
-    cb(null, `${baseName}-${Date.now()}${ext}`)
-  }
-})
-const upload = multer({ storage }); // note: dest, not desc
+
 
 
 router.use(signInRouter);
@@ -32,15 +22,7 @@ router.use(validateUserSessionRouter);
 router.use(getUserRouter);
 router.use(addViewRouter)
 router.use(getAuthorsAlbumsRouter)
-router.post(
-  '/saveSongInBase',
-  upload.fields([
-    { name: 'mp3', maxCount: 1 },
-    { name: 'img', maxCount: 1 }
-  ]),
-  controller.saveSongInBase
-);
-
+router.use(saveSongInBaseRouter)
 router.post('/createPlaylist',controller.createPlaylist)
 router.get('/getPlaylistData',controller.getPlaylistData)
 router.get('/getSong',controller.getSong);
