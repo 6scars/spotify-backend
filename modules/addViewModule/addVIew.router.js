@@ -1,5 +1,5 @@
-import express from 'express'
-import addView from './addView.controller.js';
+import express          from 'express'
+import addView          from './addView.controller.js';
 
 const router = express.Router();
 

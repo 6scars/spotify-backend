@@ -4,27 +4,28 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 
 export default async function validateUserSession(req, res, next) {
-    const authHeader = extractHeadToken(req);
-    if (!authHeader) return res.status(401).json({ error: 'Missing token' });
-
-    const token = authHeader.split(' ')[1];
     try {
-        const verifiedToken = verifyToken(token);
-        const DoesTokenExist = checkDoesExist(verifiedToken)
 
-        if(DoesTokenExist){
-            return res.status(201).json({ message: "accomplished", token: token })
-        }
+        const authHeader                = extractHeadToken(req);
+        if (!authHeader) throw new AppError('validateUserSession no req authorization atribute', 500)
+
+        const token                     = authHeader.split(' ')[1];
+
+        if(!token || token == 'null') throw new AppError("validateUserSession no token (Bearer token)", 500)
+
+        const verifiedToken         = verifyToken(token);
+
+        if(!verifiedToken || verifiedToken == 'null') throw new AppError("validateUserSession no verified token OR jwt malformed", 500)
+
+        const DoesTokenExist        = checkDoesExist(verifiedToken)
+
+        if(DoesTokenExist) return res.status(201).json({ message: "accomplished", token: token })
+
         throw new AppError("validateUserSession - Token doesnt exist", 500);
     } catch (err) {
         next(err)
     }
 }
-
-
-////////////////////////////////////////////                            //////////////////////////////////////////////
-/////////////////////////////////////////// HELPERS FOR THE MIDDLEWARE //////////////////////////////////////////////
-//////////////////////////////////////////                            //////////////////////////////////////////////
 
 
 function extractHeadToken(req){
@@ -36,9 +37,6 @@ function verifyToken(token){
 }
 
 
-////////////////////////////////////////////               ///////////////////////////////////////////////////
-/////////////////////////////////////////// IF STATEMENTS ///////////////////////////////////////////////////
-//////////////////////////////////////////               ///////////////////////////////////////////////////
 
 function checkDoesExist(token){
     if(token){

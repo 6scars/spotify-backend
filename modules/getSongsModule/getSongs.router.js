@@ -1,5 +1,5 @@
-import express from 'express'
-import getSongs from './getSongs.controller.js'
+import express          from 'express'
+import getSongs         from './getSongs.controller.js'
 
 const router = express.Router();
 

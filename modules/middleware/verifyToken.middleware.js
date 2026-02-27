@@ -43,6 +43,6 @@ function returnAuthHeader(req){
 
 function checkIsAuthHeaderExist(authHeader){
     if (!authHeader) 
-        throw next(new AppError("Your session ended", 400))
+        throw new AppError("Your session ended", 400)
 }
 
