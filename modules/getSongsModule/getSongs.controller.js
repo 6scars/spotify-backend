@@ -1,4 +1,4 @@
-import getSongsQuery from "./getSongs-helper-functions/getSongs.helper.getSongsQuery.js";
+import getSongsQuery from "./getSongs-helper-functions/getSongs.query.js";
 
 export default async function getSongs(req, res, next) {
     try {

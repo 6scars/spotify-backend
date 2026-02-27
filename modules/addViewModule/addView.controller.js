@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import addViewQuery from './addView-helper-functions/addView.helper.addView.query.js'
+import addViewQuery from './addView-helper-functions/addView.query.js'
 import AppError from '../errorHandler/errorHandler.js';
 const JWT_SECRET = process.env.JWT_SECRET;
 

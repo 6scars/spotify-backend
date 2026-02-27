@@ -1,4 +1,4 @@
-import getAuthorAlbumsByUserIdQuery from "./getAuthors-helper-functions/getAuthorsAlbums.helper.getAuthorAlbumsByIdQuery.js";
+import getAuthorAlbumsByUserIdQuery from "./getAuthors-helper-functions/getAuthorsAlbums.query.js";
 
 export default async function getAuthorsAlbums(req, res, next) {
     const { id, email } = req.payloadJWT;

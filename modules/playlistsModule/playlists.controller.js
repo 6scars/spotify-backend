@@ -1,4 +1,4 @@
-import getOwnUserPlaylists from './playlists-helper-functions/playlists.helper.getOwnUserPlaylists.js'
+import getOwnUserPlaylists from './playlists-helper-functions/playlists.query.js'
 import AppError from '../errorHandler/errorHandler.js'
 
 export default async function playlists(req, res, next) {

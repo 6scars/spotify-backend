@@ -21,21 +21,33 @@ export function errorHandler(err, req, res, next) {
 
 
 function errorDevelopment(err, res){
-    res.status(err.status)  .json({
+    res.status(err.status || 500)   .json({
       message: err.message
     });
-    console.error("message: ", err.message, "\nStatus: ", err.status, "\nisOperational: ", err.isOperational)
+    console.error(
+      "message: ",          err.message || "unexpected error",
+      "\nStatus: ",         err.status || 500 ,
+      "\nisOperational: ",  err.isOperational || false,
+      "\nstock:",           err.stack || 'no stack'
+      )
 }
 
 function errorProduction (err, res){
      if(err.status < 500){
-        res.status(err.status).json({
-          message: err.message
+        res.status(err.status || 500).json({
+          message: err.message || "unexpected error"
         });
       }
+
       if(err.status >= 500){
-        res.status(500)       .json({
+        res.status(500)              .json({
           message: "something goes wrong, try again later or contact with us"
         })
+        console.error(
+          "message: ",          err.message || "unexpected error",
+          "\nStatus: ",         err.status || 500 ,
+          "\nisOperational: ",  err.isOperational || false,
+          "\nstock:",           err.stack || 'no stack'
+        )
   }
 }
