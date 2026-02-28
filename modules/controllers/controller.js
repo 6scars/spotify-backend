@@ -5,44 +5,6 @@ import                               '../utils/utils.js';
 let controller;
 
 
-export async function getSong(req, res, next) {
-    try {
-        const id = req.query.id;
-        if (id) {
-            const data = await sql`
-                SELECT
-                    songs.id,
-                    "song_Name" AS song_name,
-                    songs."song_Image" AS song_image,
-                    songs.created_at,
-                    songs.views,
-                    authors.follows,
-                    file,
-                    credit,
-                    album_id,
-                    author_image AS author_image,
-                    author,
-                    author_id,
-                    biograph
-                FROM songs
-                INNER JOIN authors_songs ON authors_songs.song_id = songs.id
-                INNER JOIN authors ON authors.id = authors_songs.author_id
-                WHERE songs.id = ${id}
-            `
-            if (data) {
-                return res.status(200).json({ message: "", data: data })
-            }
-        } else {
-            console.error("GET SONG ERROR, IDSONG", err)
-            throw 'getSong ERROR ID SONG'
-        }
-    } catch (err) {
-        console.error(err)
-        return res.status(500).json({ message: "SERVER ERROR GETSONG FUNCTION", err })
-    }
-}
-
-
 
 export async function addSongToPlaylist(req, res, next) {
     try {
@@ -89,6 +51,5 @@ export async function handleRemoveSong(req, res, next) {
 
 export default controller = {
     handleRemoveSong,
-    addSongToPlaylist,
-    getSong
+    addSongToPlaylist
 }

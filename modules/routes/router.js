@@ -11,22 +11,24 @@ import getAuthorsAlbumsRouter     from '../getAuthorsAlbumsModule/getAuthorsAlbu
 import saveSongInBaseRouter       from '../saveSongInBaseModule/saveSongInBase.router.js'
 import createPlaylistRouter       from '../createPlaylistModule/createPlaylist.router.js';   
 import getPlaylistsRouter         from '../getPlaylistsModule/getPlaylists.router.js'; 
+import getSongRouter              from '../getSongModule/getSong.router.js'
 
 const router = express.Router();
 
 
 
-router.use(signInRouter);
-router.use(signUpRouter);
-router.use(playlistsRouter);
-router.use(validateUserSessionRouter);
-router.use(getUserRouter);
-router.use(addViewRouter)
-router.use(getAuthorsAlbumsRouter)
-router.use(saveSongInBaseRouter)
-router.use(createPlaylistRouter)
-router.use(getPlaylistsRouter)
-router.get('/getSong',controller.getSong);
+router.use(signInRouter                 );
+router.use(signUpRouter                 );
+router.use(playlistsRouter              );
+router.use(validateUserSessionRouter    );
+router.use(getUserRouter                );
+router.use(addViewRouter                );
+router.use(getAuthorsAlbumsRouter       );
+router.use(saveSongInBaseRouter         );
+router.use(createPlaylistRouter         );
+router.use(getPlaylistsRouter           );
+router.use(getSongRouter                );
+
 router.post('/addSongToPlaylist',verifyToken, controller.addSongToPlaylist)
 router.post('/handleRemoveSong',verifyToken, controller.handleRemoveSong)
 export default router;
