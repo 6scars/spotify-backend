@@ -1,6 +1,4 @@
 import express                    from 'express';
-import controller                 from '../controllers/controller.js';
-import verifyToken                from '../middleware/verifyToken.middleware.js';
 import signInRouter               from "../signInModule/signIn.router.js";
 import signUpRouter               from "../signUpModule/signUp.router.js";
 import playlistsRouter            from "../playlistsModule/playlists.router.js";
@@ -13,6 +11,7 @@ import createPlaylistRouter       from '../createPlaylistModule/createPlaylist.r
 import getPlaylistsRouter         from '../getPlaylistsModule/getPlaylists.router.js'; 
 import getSongRouter              from '../getSongModule/getSong.router.js';
 import addSongToPlaylistRouter    from '../addSongIntoPlaylistModule/addSongIntoPlaylist.router.js';
+import handleRemoveSongRouter     from '../handleRemoveSong/handleRemoveSong.router.js';
 
 const router = express.Router();
 
@@ -30,5 +29,6 @@ router.use(createPlaylistRouter         );
 router.use(getPlaylistsRouter           );
 router.use(getSongRouter                );
 router.use(addSongToPlaylistRouter      );
-router.post('/handleRemoveSong',verifyToken, controller.handleRemoveSong)
+
+router.use(handleRemoveSongRouter       );
 export default router;
