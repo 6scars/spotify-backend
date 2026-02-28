@@ -9,6 +9,7 @@ import getUserRouter              from '../getSongsModule/getSongs.router.js'
 import addViewRouter              from '../addViewModule/addVIew.router.js';
 import getAuthorsAlbumsRouter     from '../getAuthorsAlbums/getAuthorsAlbums.router.js'
 import saveSongInBaseRouter       from '../saveSongInBaseModule/saveSongInBase.router.js'
+import createPlaylistRouter       from '../createPlaylistModule/createPlaylist.router.js';    
 import path                       from 'path';
 
 const router = express.Router();
@@ -23,7 +24,7 @@ router.use(getUserRouter);
 router.use(addViewRouter)
 router.use(getAuthorsAlbumsRouter)
 router.use(saveSongInBaseRouter)
-router.post('/createPlaylist',controller.createPlaylist)
+router.use(createPlaylistRouter)
 router.get('/getPlaylistData',controller.getPlaylistData)
 router.get('/getSong',controller.getSong);
 router.post('/addSongToPlaylist',verifyToken, controller.addSongToPlaylist)
