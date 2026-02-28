@@ -6,4 +6,4 @@ const router = express.Router();
 
 router.get('/getAuthorsAlbums', verifyToken, getAuthorsAlbums);
 
-export default router
+export default router 

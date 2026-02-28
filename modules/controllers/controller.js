@@ -1,89 +1,9 @@
-import jwt                      from 'jsonwebtoken'
 import { sql }                  from '../../config/db.js'
 import                               '../utils/utils.js';
 
 
 let controller;
 
-
-
-async function createPlaylist(req, res, next) {
-    try {
-        const authHeader = req.headers.authorization
-        const { playlistName, songsToAddArray } = req.body
-        /*----verify-----*/
-        if (!authHeader || !authHeader.startsWith('Bearer '))
-            return res.status(400).json({ message: `You are not loged in` })
-
-        const token = authHeader.split(' ')[1]
-        const { id: authorId } = jwt.verify(token, JWT_SECRET);
-
-        /*-----sql queries-----*/
-        await sql.begin(async tx => {
-            let newPlaylistId;
-            const insertPlaylists = await sql`
-                INSERT INTO playlists (name)
-                VALUES (${playlistName})
-                RETURNING *
-            `
-
-            newPlaylistId = insertPlaylists[0].id
-            await tx`
-                INSERT INTO authors_playlists (author_id,playlist_id)
-                VALUES (${authorId},${newPlaylistId})
-            `
-
-            let tuples
-            if (songsToAddArray.length > 0) {
-                tuples = songsToAddArray
-                    .map((id) => tx`(${newPlaylistId},${id})`)
-                    .reduce((acc, curr) => tx`${acc}, ${curr}`)
-
-            }
-            if (tuples) {
-                await tx`
-                    INSERT INTO playlists_songs (playlist_id, song_id)
-                    VALUES ${tuples}
-                `;
-            }
-        })
-        return res.status(201).json({ message: 'createPlaylist function' })
-    } catch (err) {
-        console.error(err)
-        return res.status(500).json({ message: `Creating Playlist ERORR$`, err })
-    }
-}
-
-
-async function getPlaylistData(req, res, next) {
-
-    try {
-        const id = req.query.id;
-        console.log(id)
-        if (!id) {
-            throw 'SERVER ERROR GET PLAYLISTS DATA, BAD ID'
-        }
-        const dataPlaylist = await sql`
-            SELECT playlists.id, playlists.name, songs.id AS song_id,  songs."song_Name" AS song_name, songs."song_Image" AS song_image, songs.album_id, songs.views ,authors.id AS author_id, authors.author
-            FROM playlists
-            INNER JOIN playlists_songs
-            ON playlists_songs.playlist_id = playlists.id
-            INNER JOIN songs
-            ON playlists_songs.song_id = songs.id
-            INNER JOIN authors_songs
-            ON songs.id = authors_songs.song_id
-            INNER JOIN authors
-            ON authors_songs.author_id = authors.id
-            WHERE playlists.id =${id}
-        `
-
-        return res.status(201).json({ message: "fetchThePlaylistData", data: dataPlaylist })
-    } catch (err) {
-        console.error(err)
-        return res.status(500).json({ message: "FETCHPLAYLIST ERROR", err })
-    }
-
-}
 
 export async function getSong(req, res, next) {
     try {
@@ -170,7 +90,5 @@ export async function handleRemoveSong(req, res, next) {
 export default controller = {
     handleRemoveSong,
     addSongToPlaylist,
-    createPlaylist,
-    getPlaylistData,
     getSong
 }

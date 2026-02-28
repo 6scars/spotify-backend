@@ -7,10 +7,10 @@ import playlistsRouter            from "../playlistsModule/playlists.router.js"
 import validateUserSessionRouter  from '../validateUserSessionModule/validateUserSession.router.js'
 import getUserRouter              from '../getSongsModule/getSongs.router.js'
 import addViewRouter              from '../addViewModule/addVIew.router.js';
-import getAuthorsAlbumsRouter     from '../getAuthorsAlbums/getAuthorsAlbums.router.js'
+import getAuthorsAlbumsRouter     from '../getAuthorsAlbumsModule/getAuthorsAlbums.router.js'
 import saveSongInBaseRouter       from '../saveSongInBaseModule/saveSongInBase.router.js'
-import createPlaylistRouter       from '../createPlaylistModule/createPlaylist.router.js';    
-import path                       from 'path';
+import createPlaylistRouter       from '../createPlaylistModule/createPlaylist.router.js';   
+import getPlaylistsRouter         from '../getPlaylistsModule/getPlaylists.router.js'; 
 
 const router = express.Router();
 
@@ -25,7 +25,7 @@ router.use(addViewRouter)
 router.use(getAuthorsAlbumsRouter)
 router.use(saveSongInBaseRouter)
 router.use(createPlaylistRouter)
-router.get('/getPlaylistData',controller.getPlaylistData)
+router.use(getPlaylistsRouter)
 router.get('/getSong',controller.getSong);
 router.post('/addSongToPlaylist',verifyToken, controller.addSongToPlaylist)
 router.post('/handleRemoveSong',verifyToken, controller.handleRemoveSong)
