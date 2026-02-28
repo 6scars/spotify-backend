@@ -1,5 +1,5 @@
-import express from 'express'
-import signInController from './signIn.controller.js'
+import express              from 'express'
+import signInController     from './signIn.controller.js'
 
 
 const router = express.Router();

@@ -6,21 +6,15 @@ export default async function signUp(req, res, next) {
     const saltRounds = 10;
     const { email, password } = req.body
     try {
-        const hashed = await bcrypt.hash(password, saltRounds)
-
-        const newUser = await insertNewUser(email, hashed)
+        const hashed    = await bcrypt.hash(password, saltRounds)
+        const newUser   = await insertNewUser(email, hashed)
         
         return res.status(201).json({ message: 'User Created' })
     } catch (err) {
-        console.error('SINGUP error:', err)
+        next(err)
     }
-    return res.status(202).json({ message: "accomplished" })
 }
 
-
-////////////////////////////////////////////                            //////////////////////////////////////////////
-/////////////////////////////////////////// HELPERS FOR THE MIDDLEWARE //////////////////////////////////////////////
-//////////////////////////////////////////                            //////////////////////////////////////////////
 
 async function insertNewUser(email, hashed){
     try{

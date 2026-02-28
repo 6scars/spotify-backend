@@ -1,4 +1,4 @@
-import insertSongIntoPlaylistQuery from "./addSongIntoPlaylist-helper-functions/addSongIntoPlaylist.query.js"
+import insertSongIntoPlaylistQuery              from "./addSongIntoPlaylist-helper-functions/addSongIntoPlaylist.query.js"
 
 export default async function addSongToPlaylist(req, res, next) {
     try {

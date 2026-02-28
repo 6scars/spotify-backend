@@ -1,4 +1,4 @@
-import {sql} from "../../../config/db.js"
+import {sql}                 from "../../../config/db.js"
 
 
 export default async function insertSongIntoPlaylistQuery(song_id, playlist_id, user_id){

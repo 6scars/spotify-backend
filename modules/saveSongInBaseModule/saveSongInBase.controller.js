@@ -56,10 +56,9 @@ export default async function saveSongInBase(req, res, next) {
         const { song_name, credit, album_id }   = addSongForm;
         const albumIdValue                      = album_id && album_id !== '' ? album_id : null;
 
+        const insertSongs                       = await insertSongsQuery(song_name, mp3Name, imgName, credit, albumIdValue);
 
-        const insertSongs   = await insertSongsQuery(song_name, mp3Name, imgName, credit, albumIdValue);
-
-        const song_id = insertSongs?.[0]?.id;
+        const song_id                           = insertSongs?.[0]?.id;
         if (!song_id) throw new AppError('Failed to insert song (no id returned)', 500);
 
         // Insert into authors_songs junction table
@@ -90,16 +89,16 @@ const safeUnlink = async (p) => {
     }
 };
 
+
 async function uploadFile(bucketName, pathWithFileName, fileBuffer, fileMimetype){
     try{
-        console.log("uploadFile start")
         const { data: fileData, error: fileError } = await supabase.storage
         .from(bucketName) // for example: 'spotify'
         .upload(pathWithFileName, fileBuffer, {   //for example: `songs/${filename}`...
-            contentType: fileMimetype,
-            upsert: true
+            contentType:    fileMimetype,
+            upsert:         true
         });
-        console.log("uploadFile end before throw & fileData:", fileData)
+
         if(fileError) throw new AppError(fileError.message , 500)
     }catch(err){
         throw new AppError(err.message || 'saveSongInBase.controller error uploadFile - uploading file to supabase', 500)

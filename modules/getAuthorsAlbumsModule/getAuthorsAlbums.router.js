@@ -1,6 +1,6 @@
-import express from 'express'
-import getAuthorsAlbums from './getAuthorsAlbums.controller.js';
-import verifyToken from '../middleware/verifyToken.middleware.js';
+import express              from 'express'
+import getAuthorsAlbums     from './getAuthorsAlbums.controller.js';
+import verifyToken          from '../middleware/verifyToken.middleware.js';
 
 const router = express.Router();
 

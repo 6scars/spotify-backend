@@ -4,7 +4,7 @@ import path     from 'path'
 import fs       from 'fs'
 import saveSongInBase from './saveSongInBase.controller.js'
 
-const uploadDir = 'uploads'
+const uploadDir     = 'uploads'
 
 if(!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir, {recursive: true})
@@ -12,12 +12,14 @@ if(!fs.existsSync(uploadDir)){
 
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+
+  destination:  function (req, file, cb) {
     cb(null, 'uploads/')
   },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname)
-    const baseName = path.basename(file.originalname, ext);
+
+  filename:     function (req, file, cb) {
+    const ext       = path.extname(file.originalname)
+    const baseName  = path.basename(file.originalname, ext);
     cb(null, `${baseName}-${Date.now()}${ext}`)
   }
 })

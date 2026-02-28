@@ -1,12 +1,12 @@
-import jwt from "jsonwebtoken"
-import AppError from "../errorHandler/errorHandler.js";
+import jwt          from "jsonwebtoken"
+import AppError     from "../errorHandler/errorHandler.js";
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export default async function createToken(userId, userEmail){
     try{
         return await jwt.sign({
-                id: userId,
-                email: userEmail
+                id:     userId,
+                email:  userEmail
             },
                 JWT_SECRET,
                 { expiresIn: '1h' }
