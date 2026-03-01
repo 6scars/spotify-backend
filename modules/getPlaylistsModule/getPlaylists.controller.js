@@ -1,5 +1,5 @@
-import AppError                     from "../errorHandler/errorHandler.js";
-import getPlaylistDataByPlaylistId  from "./getPlaylists-helper-function/getPlaylists.query.js"
+import AppError                         from "../../config/errorHandler/errorHandler.js";
+import getPlaylistDataByPlaylistId      from "./getPlaylists-helper-function/getPlaylists.query.js"
 
 
 export default async function getPlaylist(req, res, next) {

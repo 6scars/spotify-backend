@@ -2,7 +2,7 @@ import fs                       from "fs";
 import jwt                      from "jsonwebtoken";
 import path                     from "path";
 import { createClient }         from '@supabase/supabase-js'
-import AppError                 from "../errorHandler/errorHandler.js";
+import AppError                 from "../../config/errorHandler/errorHandler.js";
 import Queries                  from './saveSongInBase-helper-functions/saveSongInBase.query.js'
 
 export const fsp = fs.promises; // use promises on the existing fs import

@@ -1,5 +1,5 @@
 import getSongBySongId              from "./getSong-helper-function/getSong.query.js"
-import AppError                     from "../errorHandler/errorHandler.js";
+import AppError                     from "../../config/errorHandler/errorHandler.js";
 
 export default async function getSong(req, res, next) {
     try {

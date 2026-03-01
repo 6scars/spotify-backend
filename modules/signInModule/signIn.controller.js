@@ -1,8 +1,8 @@
 
 import passwordCompare          from '../helper-functions/passwordCompare.js';
 import createToken              from '../helper-functions/createToken.js';
-import AppError                 from '../errorHandler/errorHandler.js';
-import getUserByEmailQuery      from './signIn-helper-functions/signIn.query.js'
+import AppError                 from '../../config/errorHandler/errorHandler.js';
+import getUserByEmailQuery      from './signIn-helper-functions/signIn.query.js';
 
 export async function signIn(req, res, next) {
     

@@ -1,6 +1,6 @@
 import bcrypt           from 'bcrypt'
 import {sql}            from '../../config/db.js'
-import AppError         from '../errorHandler/errorHandler.js';
+import AppError         from '../../config/errorHandler/errorHandler.js';
 
 export default async function signUp(req, res, next) {
     const saltRounds = 10;

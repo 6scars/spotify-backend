@@ -1,5 +1,5 @@
 import jwt                          from "jsonwebtoken"
-import AppError                     from "../errorHandler/errorHandler.js"
+import AppError                     from "../../config/errorHandler/errorHandler.js"
 import insertNewAuthorsPlaylist     from "./createPlaylist-helper-functions/createPlaylist.query.js" 
 const JWT_SECRET = process.env.JWT_SECRET
 

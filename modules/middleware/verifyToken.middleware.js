@@ -1,4 +1,4 @@
-import AppError                     from "../errorHandler/errorHandler.js";
+import AppError                     from "../../config/errorHandler/errorHandler.js";
 import jwtVerifyReturnPayload       from "../helper-functions/jwtVerifyReturnPayload.js";
 
 /* returns    PAYLOAD   of   JWT TOKEN   if is  VALID */

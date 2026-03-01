@@ -3,7 +3,7 @@ import express          from 'express';
 import cors             from 'cors';
 import router           from './router.js';
 import morgan           from 'morgan'
-import {errorHandler}   from './modules/errorHandler/errorHandler.js'
+import {errorHandler}   from './config/errorHandler/errorHandler.js'
 
 
 

@@ -1,4 +1,4 @@
-import AppError                 from "../../errorHandler/errorHandler.js";
+import AppError                 from "../../../config/errorHandler/errorHandler.js";
 import { sql }                  from "../../../config/db.js";
 
 async function insertSongsQuery(song_name, mp3Name, imgName, credit, albumIdValue){
