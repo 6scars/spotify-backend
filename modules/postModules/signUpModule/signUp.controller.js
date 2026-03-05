@@ -8,6 +8,8 @@ export default async function signUp(req, res, next) {
     try {
         const hashed    = await bcrypt.hash(password, saltRounds)
         const newUser   = await insertNewUser(email, hashed)
+        console.log(newUser)
+        console.log(newUser, '1')
         
         return res.status(201).json({ message: 'User Created' })
     } catch (err) {
@@ -21,8 +23,6 @@ async function insertNewUser(email, hashed){
        const data = await sql`
                 INSERT INTO authors (email,password)
                 VALUES (${email}, ${hashed})
-                ON CONFLICT (email) DO NOTHING
-            RETURNING *
         `;
         return data;
     }catch(err){
